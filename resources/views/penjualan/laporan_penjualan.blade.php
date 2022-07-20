@@ -27,27 +27,21 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Invoice</th>
-                  <th>Barang</th>
+                  <th>Tanggal Transaksi</th>
+                  <th>Cara Pembayaran</th>
                   <th>Total</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>no++</td>
-                  <td>item->id_detail_transaksi</td>
-                  <td>#$$</td>
-                  <td>item->jumlah_penjualan</td>
-                  <td>
-                    <a href="#" class="btn btn-sm btn-info mb-2">
-                      <i class="fa fa-file"></i>
-                    </a>
-                    <a href="#" class="btn btn-sm btn-primary mb-2">
-                      <i class="fa fa-edit"></i>
-                    </a> 
-                  </td>
-                </tr>
+                @foreach($dataTransaksi as $index => $transaksi)
+                  <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $transaksi->tanggal_pembayaran }}</td>
+                    <td>{{ $transaksi->cara_pembayaran }}</td>
+                    <td>{{ number_format($transaksi->total_pembayaran, 0, ",", ".") }}</td>
+                  </tr>
+                @endforeach
               </tbody>
             </table>
           </div>

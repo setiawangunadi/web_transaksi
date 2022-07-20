@@ -16,9 +16,9 @@ class CreateDetailTransaksisTable extends Migration
         Schema::create('t_detail_transaksi', function (Blueprint $table) {
             $table->id('id_detail_transaksi');
             $table->foreignId('id_barang')->references('id_barang')->on('t_barang');
-            $table->foreignId('id_transaksi')->references('id_transaksi')->on('t_transaksi');
+            $table->foreignId('id_transaksi')->nullable()->references('id_transaksi')->on('t_transaksi');
             $table->integer('qty');
-            $table->integer('jumlah_penjualan'); 
+            $table->double('jumlah_penjualan'); 
             $table->timestamps();
         });
     }

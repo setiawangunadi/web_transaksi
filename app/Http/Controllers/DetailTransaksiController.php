@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Barang;
+Use App\Models\Transaksi;
 
 class DetailTransaksiController extends Controller
 {
@@ -14,7 +15,8 @@ class DetailTransaksiController extends Controller
      */
     public function index()
     {
-        return view('penjualan.laporan_penjualan');
+        $dataTransaksi = Transaksi::all();
+        return view('penjualan.laporan_penjualan', compact('dataTransaksi'));
     }
 
     /**
@@ -35,7 +37,6 @@ class DetailTransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -46,7 +47,9 @@ class DetailTransaksiController extends Controller
      */
     public function show($id)
     {
-        //
+        $transaksi = Transaksi::with(['detailTransaksi'])->find($id);
+        // return $transaksi;
+        return view('penjualan.detail_laporan_penjualan', compact('transaksi'));
     }
 
     /**

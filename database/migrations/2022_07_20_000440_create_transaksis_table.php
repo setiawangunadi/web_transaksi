@@ -18,7 +18,6 @@ class CreateTransaksisTable extends Migration
             $table->string('cara_pembayaran','100');
             $table->integer('total_pembayaran');
             $table->date('tanggal_pembayaran');
-            $table->tinyInteger('status_pembelian');
             $table->timestamps();
         });
     }

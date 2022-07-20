@@ -22,6 +22,9 @@ Route::get('/transaksi', function(){
 });
 
 //BarangAPI
+
+// Route::resource('barang', 'BarangController');
+
 Route::get('/daftar-barang','BarangController@index')->name('daftar-barang');
 Route::get('/tambah-barang','BarangController@create')->name('tambah-barang');
 Route::post('/simpan-barang','BarangController@store')->name('simpan-barang');
@@ -31,8 +34,12 @@ Route::get('/delete-barang/{id}','BarangController@destroy')->name('delete-baran
 
 //PenjualanAPI
 Route::get('/penjualan','PenjualanController@index')->name('penjualan');
+Route::post('penjualan','PenjualanController@store')->name('penjualan.store');
 Route::get('/tambah-penjualan','PenjualanController@create')->name('tambah-penjualan');
 Route::post('/simpan-penjualan','PenjualanController@store')->name('simpan-penjualan');
+Route::post('penjualan/detail-penjualan', 'PenjualanController@detailPenjualanStore')->name('penjualan.detail_penjualan.store');
+Route::delete('penjualan/detail-penjualan/{id}', 'PenjualanController@detailPenjualanDestroy')->name('penjualan.detail_penjualan.destroy');
 
 //DetailPenjualanAPI
 Route::get('/detail-penjualan','DetailTransaksiController@index')->name('detail-penjualan');
+Route::get('detail-penjualan/{id}', 'DetailTransaksiController@show')->name('detail-penjualan.show');

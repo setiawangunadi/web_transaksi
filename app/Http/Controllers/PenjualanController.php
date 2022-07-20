@@ -18,7 +18,8 @@ class PenjualanController extends Controller
     public function index()
     {
         $dtBarang = Barang::all();
-        return view('penjualan.penjualan',compact('dtBarang'));
+        $dtDetailTransaksi = DetailTransaksi::where('id_transaksi', null)->get();
+        return view('penjualan.penjualan',compact('dtBarang', 'dtDetailTransaksi'));
     }
 
     /**
@@ -43,10 +44,24 @@ class PenjualanController extends Controller
      */
     public function store(Request $request)
     {
-        return ($request->all());
-        DetailTransaksi::create([
-            'id_barang' => $request->id_barang,
+        $input = $request->all();
+        $detailTransaksi = DetailTransaksi::where('id_transaksi', null)->get();
+        $input['total_pembayaran'] = DetailTransaksi::where('id_transaksi', NULL)->sum('jumlah_penjualan');
+
+        foreach($detailTransaksi as $transaksi) {
+            $barang = Barang::find($transaksi->id_barang);
+            Barang::find($transaksi->id_barang)->update([
+                'stok_barang' => $barang->stok_barang - $transaksi->qty
+            ]);
+        }
+
+        $transaksi = Transaksi::create($input);
+
+        DetailTransaksi::where('id_transaksi', null)->update([
+            'id_transaksi' => $transaksi->id_transaksi
         ]);
+
+        return redirect()->back();
     }
 
     /**
@@ -89,8 +104,25 @@ class PenjualanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function hapus($id)
     {
         //
     }
+
+    public function detailPenjualanStore(Request $request)
+    {
+        $input = $request->all();
+        $input['jumlah_penjualan'] = $request->qty * $request->harga_barang;
+        DetailTransaksi::create($input);
+
+        return redirect()->back();
+    }
+
+    public function detailPenjualanDestroy($id)
+    {
+        DetailTransaksi::find($id)->delete();
+        return redirect()->back();
+    }
+
+
 }
